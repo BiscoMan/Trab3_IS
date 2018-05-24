@@ -18,7 +18,7 @@ import java.util.Base64;
  */
 public class Serialize {
     
-     static String toString(Object o) throws IOException {
+     public static String toString(Object o) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
             oos.writeObject(o);
@@ -26,7 +26,7 @@ public class Serialize {
         return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
 
-    static Object fromString(String str) throws IOException, ClassNotFoundException {
+    public static Object fromString(String str) throws IOException, ClassNotFoundException {
         byte [] data = Base64.getDecoder().decode(str);
         Object o;
         try (ObjectInputStream ois = new ObjectInputStream( 

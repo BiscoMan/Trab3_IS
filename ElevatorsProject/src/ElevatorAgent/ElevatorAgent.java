@@ -23,7 +23,7 @@ public class ElevatorAgent extends Agent {
 
     @Override
     protected void setup() {
-        DFInteraction.RegisterInDF(this, "EA" , "ElevatorService");
+        DFInteraction.RegisterInDF(this, this.getLocalName() , "ElevatorService");
         Object[] arguments = this.getArguments();
         myElevInt.initHardware(this, (float) arguments[0], (int) arguments[1]);
         

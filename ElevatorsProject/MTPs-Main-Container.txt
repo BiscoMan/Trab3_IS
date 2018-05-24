@@ -1,1 +1,1 @@
-http://AndreRocha-PC:7778/acc
+http://10.164.31.149:7778/acc
