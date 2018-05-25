@@ -5,13 +5,14 @@
  */
 package ElevatorAgent;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author gonca
  */
-public class Destiny {
+public class Destiny implements Serializable{
 
     ArrayList<Integer> CurrentDestinies = new ArrayList<>();
     int currentDestiny = 0;
