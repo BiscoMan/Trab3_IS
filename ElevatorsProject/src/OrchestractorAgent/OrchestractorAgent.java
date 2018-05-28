@@ -15,25 +15,22 @@ import java.util.ArrayList;
  *
  * @author André
  */
-public class OrchestractorAgent extends Agent{
-    
+public class OrchestractorAgent extends Agent {
+
     protected HardwareImplementation myOrchInt = new HardwareImplementation();
+    protected Destiny destinies = new Destiny();
     protected ArrayList<String> calls;
 
-    
-    
     @Override
     protected void setup() {
         myOrchInt.initHardware(this);
-        DFInteraction.RegisterInDF(this, this.getLocalName(), "Elevator");   
-    }
-
-    protected void action(){
+        DFInteraction.RegisterInDF(this, this.getLocalName(), "Elevator");
         this.addBehaviour(new AchieverResponder(this, MessageTemplate.MatchPerformative(ACLMessage.REQUEST)));
     }
+
     @Override
     protected void takeDown() {
-        
+
     }
-    
+
 }

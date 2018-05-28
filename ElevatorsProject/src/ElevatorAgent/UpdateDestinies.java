@@ -7,7 +7,6 @@ package ElevatorAgent;
 
 import Common.DFInteraction;
 import Common.Serialize;
-import ElevatorSimulation.InsideFrame;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
@@ -24,34 +23,35 @@ import java.util.logging.Logger;
  */
 public class UpdateDestinies extends TickerBehaviour {
 
-    Destiny destiny = new Destiny();
-    
-
     public UpdateDestinies(Agent a, long period) {
         super(a, period);
-        destiny.CurrentDestinies = ((ElevatorAgent) myAgent).myElevInt.destinies();
+        //destiny.setCurrentDestinies(((ElevatorAgent) myAgent).myElevInt.destinies());
     }
 
     @Override
     protected void onTick() {
 
         ArrayList<Integer> newDestinies = ((ElevatorAgent) myAgent).myElevInt.destinies();
-        if (!destiny.CurrentDestinies.equals(newDestinies)) {
-            destiny.CurrentDestinies = new ArrayList<>(newDestinies);
+        System.out.println("New Destinies Elevator: " + newDestinies);
+        System.out.println("Current Destinies Elevator: " + ((ElevatorAgent) myAgent).destinies.CurrentDestinies);
+        if (!((ElevatorAgent) myAgent).destinies.CurrentDestinies.equals(newDestinies)) {
+            ((ElevatorAgent) myAgent).destinies.setCurrentDestinies(newDestinies);
+            ((ElevatorAgent) myAgent).destinies.CurrentDestinies.add(((ElevatorAgent) myAgent).destinies.currentDestiny);
+            System.out.println("Current Destinies Elevator: " + ((ElevatorAgent) myAgent).destinies.CurrentDestinies);
+            System.out.println("Current Destiny Elevator: " + ((ElevatorAgent) myAgent).destinies.currentDestiny);
+            ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
+            DFAgentDescription[] dfd = DFInteraction.SearchInDF(myAgent, "Orchestractor", "Elevator");
+            AID name = dfd[0].getName();
+            msg.addReceiver(name);
+            try {
+                msg.setContent(Serialize.toString(((ElevatorAgent) myAgent).destinies.CurrentDestinies));
+            } catch (IOException ex) {
+                Logger.getLogger(UpdateDestinies.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            myAgent.addBehaviour(new SendDestinies(myAgent, msg));
+            ((ElevatorAgent) myAgent).destinies.CurrentDestinies.remove(((ElevatorAgent) myAgent).destinies.CurrentDestinies.size() - 1);
+        } else {
+            System.out.println("Não está a entrar no if.");
         }
-        
-        //Criar tickerbehaviour em que de tempo a tempo confirma se o arriveposition retorna true e isso significa
-        //que o elevador chegou à nova posição muda o valor do currentposition com o valor que estava no currentposition
-        ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-        DFAgentDescription[] dfd = DFInteraction.SearchInDF(myAgent, null, "Elevator");
-        AID name = dfd[0].getName();
-        msg.addReceiver(name);
-        try {
-            msg.setContent(Serialize.toString(destiny));
-        } catch (IOException ex) {
-            Logger.getLogger(UpdateDestinies.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        myAgent.addBehaviour(new SendDestinies(myAgent, msg));
     }
 }

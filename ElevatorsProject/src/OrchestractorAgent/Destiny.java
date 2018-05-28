@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ElevatorAgent;
+package OrchestractorAgent;
 
+/**
+ *
+ * @author gonca
+ */
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -16,19 +20,13 @@ public class Destiny implements Serializable{
 
     ArrayList<Integer> CurrentDestinies = new ArrayList<>();
     int currentDestiny = 0;
-    int nextDestiny = 0;
-    
-    
+
     public ArrayList<Integer> getCurrentDestinies() {
         return CurrentDestinies;
     }
 
     public int getCurrentDestiny() {
         return currentDestiny;
-    }
-    
-    public int getNextDestiny() {
-        return nextDestiny;
     }
 
     public void setCurrentDestinies(ArrayList<Integer> CurrentDestinies) {
@@ -38,9 +36,6 @@ public class Destiny implements Serializable{
     public void setCurrentDestiny(int currentDestiny) {
         this.currentDestiny = currentDestiny;
     }
-    
-     public void setNextDestiny(int nextDestiny) {
-        this.nextDestiny = nextDestiny;
-    }
 
 }
+

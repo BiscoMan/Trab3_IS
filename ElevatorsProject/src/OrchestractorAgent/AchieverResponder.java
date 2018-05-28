@@ -6,7 +6,6 @@
 package OrchestractorAgent;
 
 import Common.Serialize;
-import OrchestractorSimulation.HardwareImplementation;
 import jade.core.Agent;
 import jade.domain.FIPAAgentManagement.FailureException;
 import jade.domain.FIPAAgentManagement.NotUnderstoodException;
@@ -25,15 +24,6 @@ import java.util.logging.Logger;
  */
 public class AchieverResponder extends AchieveREResponder {
 
-    
-    protected HardwareImplementation myOrchInt = new HardwareImplementation();
-    
-    protected class destinies{
-        ArrayList<Integer> destinies;
-        int currentPosition;
-    }
-    destinies destinies = new destinies();
-     
     public AchieverResponder(Agent a, MessageTemplate mt) {
         super(a, mt);
     }
@@ -42,7 +32,13 @@ public class AchieverResponder extends AchieveREResponder {
     protected ACLMessage handleRequest(ACLMessage request) throws NotUnderstoodException, RefuseException {
         System.out.println(myAgent.getLocalName() + ": Processing REQUEST message");
         try {
-            destinies = (destinies)Serialize.fromString(request.getContent());
+            ((OrchestractorAgent) myAgent).destinies.setCurrentDestinies((ArrayList<Integer>) Serialize.fromString(request.getContent()));
+            if (!((OrchestractorAgent) myAgent).destinies.CurrentDestinies.isEmpty()) {
+                 ((OrchestractorAgent) myAgent).destinies.setCurrentDestiny(((OrchestractorAgent) myAgent).destinies.CurrentDestinies.get(((OrchestractorAgent) myAgent).destinies.CurrentDestinies.size() - 1));
+                 ((OrchestractorAgent) myAgent).destinies.CurrentDestinies.remove(((OrchestractorAgent) myAgent).destinies.CurrentDestinies.size() - 1);
+            }
+            //System.out.println("Destinies List OA: " + destinies.getCurrentDestinies());
+            //System.out.println("Destinies Number OA: " + destinies.getCurrentDestiny());
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(AchieverResponder.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,26 +53,46 @@ public class AchieverResponder extends AchieveREResponder {
         block(5000);
         ACLMessage msg = request.createReply();
         msg.setPerformative(ACLMessage.INFORM);
-        msg.setContent(Integer.toString(nextDestiny(destinies)));
+        //System.out.println("Next destiny OA: " + nextDestiny(destinies));
+        int myNumber = ((OrchestractorAgent) myAgent).destinies.getCurrentDestiny();
+        int theNumber = 0;
+        ArrayList<Integer> calls = ((OrchestractorAgent) myAgent).myOrchInt.calls();
+        ArrayList<Integer> Destinies = ((OrchestractorAgent) myAgent).destinies.getCurrentDestinies();
+        Destinies.addAll(calls);
+        if (!((OrchestractorAgent) myAgent).destinies.CurrentDestinies.isEmpty()) {
+            int distance = Math.abs(((OrchestractorAgent) myAgent).destinies.getCurrentDestinies().get(0) - myNumber);
+            int idx = 0;
+            for (int c = 1; c < Destinies.size(); c++) {
+                int cdistance = Math.abs(Destinies.get(c) - myNumber);
+                if (cdistance < distance) {
+                    idx = c;
+                    distance = cdistance;
+                }
+            }
+            theNumber = Destinies.get(idx);
+        }
+        msg.setContent(Integer.toString(theNumber));
         return msg;
     }
-    
-    public int nextDestiny(destinies destinies) {
-        int myNumber = destinies.currentPosition;
-        ArrayList<Integer> calls = myOrchInt.calls();
-        ArrayList<Integer> Destinies = destinies.destinies;
-        Destinies.addAll(calls);
-        int distance = Math.abs(destinies.destinies.get(0) - myNumber);
-        int idx = 0;
-        for (int c = 1; c < Destinies.size(); c++) {
-            int cdistance = Math.abs(Destinies.get(c) - myNumber);
-            if (cdistance < distance) {
-                idx = c;
-                distance = cdistance;
-            }
-        }
-        int theNumber = Destinies.get(idx);
 
+   /* protected int nextDestiny(Destiny destinies) {
+        int myNumber = destinies.getCurrentDestiny();
+        int theNumber = 0;
+        ArrayList<Integer> calls = ((OrchestractorAgent) myAgent).myOrchInt.calls();
+        ArrayList<Integer> Destinies = destinies.getCurrentDestinies();
+        Destinies.addAll(calls);
+        if (!destinies.CurrentDestinies.isEmpty()) {
+            int distance = Math.abs(destinies.getCurrentDestinies().get(0) - myNumber);
+            int idx = 0;
+            for (int c = 1; c < Destinies.size(); c++) {
+                int cdistance = Math.abs(Destinies.get(c) - myNumber);
+                if (cdistance < distance) {
+                    idx = c;
+                    distance = cdistance;
+                }
+            }
+            theNumber = Destinies.get(idx);
+        }
         return theNumber;
-    }
+    }*/
 }

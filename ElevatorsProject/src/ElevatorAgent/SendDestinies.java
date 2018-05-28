@@ -6,16 +6,8 @@
 package ElevatorAgent;
 
 import jade.core.Agent;
-import jade.core.behaviours.WakerBehaviour;
-import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import jade.proto.AchieveREInitiator;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import Common.DFInteraction;
-import Common.Serialize;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -46,8 +38,13 @@ public class SendDestinies extends AchieveREInitiator {
     @Override
     protected void handleInform(ACLMessage inform) {
         String nextPosition;
+
         nextPosition = inform.getContent();
-        ((ElevatorAgent) myAgent).myElevInt.goToPosition(Integer.parseInt(nextPosition));
+        if (nextPosition != null) {
+            int nextPositionInt = Integer.parseInt(nextPosition);
+            ((ElevatorAgent) myAgent).destinies.setNextDestiny(nextPositionInt);
+            ((ElevatorAgent) myAgent).myElevInt.goToPosition(nextPositionInt);
+        }
     }
 
     @Override
