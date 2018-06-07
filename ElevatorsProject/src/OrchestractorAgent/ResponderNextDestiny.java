@@ -22,9 +22,9 @@ import java.util.logging.Logger;
  *
  * @author guilh
  */
-public class AchieverResponder extends AchieveREResponder {
+public class ResponderNextDestiny extends AchieveREResponder {
 
-    public AchieverResponder(Agent a, MessageTemplate mt) {
+    public ResponderNextDestiny(Agent a, MessageTemplate mt) {
         super(a, mt);
     }
 
@@ -40,7 +40,7 @@ public class AchieverResponder extends AchieveREResponder {
             //System.out.println("Destinies List OA: " + destinies.getCurrentDestinies());
             //System.out.println("Destinies Number OA: " + destinies.getCurrentDestiny());
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(AchieverResponder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ResponderNextDestiny.class.getName()).log(Level.SEVERE, null, ex);
         }
         ACLMessage msg = request.createReply();
         msg.setPerformative(ACLMessage.AGREE);
@@ -74,25 +74,4 @@ public class AchieverResponder extends AchieveREResponder {
         msg.setContent(Integer.toString(theNumber));
         return msg;
     }
-
-   /* protected int nextDestiny(Destiny destinies) {
-        int myNumber = destinies.getCurrentDestiny();
-        int theNumber = 0;
-        ArrayList<Integer> calls = ((OrchestractorAgent) myAgent).myOrchInt.calls();
-        ArrayList<Integer> Destinies = destinies.getCurrentDestinies();
-        Destinies.addAll(calls);
-        if (!destinies.CurrentDestinies.isEmpty()) {
-            int distance = Math.abs(destinies.getCurrentDestinies().get(0) - myNumber);
-            int idx = 0;
-            for (int c = 1; c < Destinies.size(); c++) {
-                int cdistance = Math.abs(Destinies.get(c) - myNumber);
-                if (cdistance < distance) {
-                    idx = c;
-                    distance = cdistance;
-                }
-            }
-            theNumber = Destinies.get(idx);
-        }
-        return theNumber;
-    }*/
 }

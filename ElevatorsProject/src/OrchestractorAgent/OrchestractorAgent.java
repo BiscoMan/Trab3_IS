@@ -9,6 +9,7 @@ import OrchestractorSimulation.HardwareImplementation;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import static jade.lang.acl.MessageTemplate.MatchPerformative;
 import java.util.ArrayList;
 
 /**
@@ -25,7 +26,7 @@ public class OrchestractorAgent extends Agent {
     protected void setup() {
         myOrchInt.initHardware(this);
         DFInteraction.RegisterInDF(this, this.getLocalName(), "Elevator");
-        this.addBehaviour(new AchieverResponder(this, MessageTemplate.MatchPerformative(ACLMessage.REQUEST)));
+        this.addBehaviour(new ResponderNextDestiny(this, MessageTemplate.and(MatchPerformative(ACLMessage.REQUEST), MessageTemplate.MatchOntology("NextDestiny"))));
     }
 
     @Override

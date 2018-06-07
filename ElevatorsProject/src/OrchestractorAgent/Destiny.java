@@ -30,7 +30,7 @@ public class Destiny implements Serializable{
     }
 
     public void setCurrentDestinies(ArrayList<Integer> CurrentDestinies) {
-        this.CurrentDestinies = CurrentDestinies;
+        this.CurrentDestinies = new ArrayList(CurrentDestinies);
     }
 
     public void setCurrentDestiny(int currentDestiny) {

@@ -31,8 +31,7 @@ public class Destiny implements Serializable{
     }
 
     public void setCurrentDestinies(ArrayList<Integer> CurrentDestinies) {
-        this.CurrentDestinies = CurrentDestinies;
-        System.out.println("Ola");
+        this.CurrentDestinies = new ArrayList(CurrentDestinies);
     }
 
     public void setCurrentDestiny(int currentDestiny) {
