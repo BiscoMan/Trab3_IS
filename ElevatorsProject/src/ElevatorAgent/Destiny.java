@@ -18,7 +18,6 @@ public class Destiny implements Serializable{
     int currentDestiny = 0;
     int nextDestiny = 0;
     
-    
     public ArrayList<Integer> getCurrentDestinies() {
         return CurrentDestinies;
     }
@@ -33,6 +32,7 @@ public class Destiny implements Serializable{
 
     public void setCurrentDestinies(ArrayList<Integer> CurrentDestinies) {
         this.CurrentDestinies = CurrentDestinies;
+        System.out.println("Ola");
     }
 
     public void setCurrentDestiny(int currentDestiny) {
