@@ -22,28 +22,9 @@ import java.util.Set;
 public class Destiny implements Serializable{
     
     HashMap<String, ArrayList> hmap = new HashMap<>();
-
-    ArrayList<Integer> CurrentDestinies = new ArrayList<>();
-    int currentDestiny = 0;
-
-    public ArrayList<Integer> getCurrentDestinies() {
-        return CurrentDestinies;
-    }
-
-    public int getCurrentDestiny() {
-        return currentDestiny;
-    }
     
-    public void setHashMapNames(String LocalName, ArrayList<Integer> Destinies){   
+    public void setHashMapNames(String LocalName, ArrayList<Integer> Destinies){
         this.hmap.put(LocalName, Destinies);
-    }
-
-    public void setCurrentDestinies(ArrayList<Integer> CurrentDestinies) {
-        this.CurrentDestinies = new ArrayList(CurrentDestinies);
-    }
-
-    public void setCurrentDestiny(int currentDestiny) {
-        this.currentDestiny = currentDestiny;
     }
 
 }

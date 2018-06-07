@@ -57,12 +57,12 @@ public class ResponderNextDestiny extends AchieveREResponder {
             currentDestiny = nextDestinies.get(nextDestinies.size()-1);
             nextDestinies.remove(nextDestinies.size() - 1);
         }
-        int myNumber = ((OrchestractorAgent) myAgent).destinies.getCurrentDestiny();
+        int myNumber = currentDestiny;
         int theNumber = 0;
         ArrayList<Integer> calls = ((OrchestractorAgent) myAgent).myOrchInt.calls();
         nextDestinies.addAll(calls);
-        if (!((OrchestractorAgent) myAgent).destinies.CurrentDestinies.isEmpty()) {
-            int distance = Math.abs(((OrchestractorAgent) myAgent).destinies.getCurrentDestinies().get(0) - myNumber);
+        if (!nextDestinies.isEmpty()) {
+            int distance = Math.abs(nextDestinies.get(0) - myNumber);
             int idx = 0;
             for (int c = 1; c < nextDestinies.size(); c++) {
                 int cdistance = Math.abs(nextDestinies.get(c) - myNumber);
