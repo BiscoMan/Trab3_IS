@@ -32,11 +32,7 @@ public class ResponderNextDestiny extends AchieveREResponder {
     protected ACLMessage handleRequest(ACLMessage request) throws NotUnderstoodException, RefuseException {
         System.out.println(myAgent.getLocalName() + ": Processing REQUEST message");
         try {
-            ((OrchestractorAgent) myAgent).destinies.setCurrentDestinies((ArrayList<Integer>) Serialize.fromString(request.getContent()));
-            if (!((OrchestractorAgent) myAgent).destinies.CurrentDestinies.isEmpty()) {
-                 ((OrchestractorAgent) myAgent).destinies.setCurrentDestiny(((OrchestractorAgent) myAgent).destinies.CurrentDestinies.get(((OrchestractorAgent) myAgent).destinies.CurrentDestinies.size() - 1));
-                 ((OrchestractorAgent) myAgent).destinies.CurrentDestinies.remove(((OrchestractorAgent) myAgent).destinies.CurrentDestinies.size() - 1);
-            }
+            ((OrchestractorAgent) myAgent).destinies.setHashMapNames(request.getSender().getLocalName(), (ArrayList<Integer>) Serialize.fromString(request.getContent()));
             //System.out.println("Destinies List OA: " + destinies.getCurrentDestinies());
             //System.out.println("Destinies Number OA: " + destinies.getCurrentDestiny());
         } catch (IOException | ClassNotFoundException ex) {
@@ -50,26 +46,32 @@ public class ResponderNextDestiny extends AchieveREResponder {
     @Override
     protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) throws FailureException {
         System.out.println(myAgent.getLocalName() + ": Preparing result of REQUEST");
+        ArrayList<Integer> nextDestinies = new ArrayList<>();
+        int currentDestiny = 0;
         block(5000);
         ACLMessage msg = request.createReply();
         msg.setPerformative(ACLMessage.INFORM);
         //System.out.println("Next destiny OA: " + nextDestiny(destinies));
+        if (!((OrchestractorAgent) myAgent).destinies.hmap.isEmpty()) {
+            nextDestinies = ((OrchestractorAgent) myAgent).destinies.hmap.get(request.getSender().getLocalName());
+            currentDestiny = nextDestinies.get(nextDestinies.size()-1);
+            nextDestinies.remove(nextDestinies.size() - 1);
+        }
         int myNumber = ((OrchestractorAgent) myAgent).destinies.getCurrentDestiny();
         int theNumber = 0;
         ArrayList<Integer> calls = ((OrchestractorAgent) myAgent).myOrchInt.calls();
-        ArrayList<Integer> Destinies = ((OrchestractorAgent) myAgent).destinies.getCurrentDestinies();
-        Destinies.addAll(calls);
+        nextDestinies.addAll(calls);
         if (!((OrchestractorAgent) myAgent).destinies.CurrentDestinies.isEmpty()) {
             int distance = Math.abs(((OrchestractorAgent) myAgent).destinies.getCurrentDestinies().get(0) - myNumber);
             int idx = 0;
-            for (int c = 1; c < Destinies.size(); c++) {
-                int cdistance = Math.abs(Destinies.get(c) - myNumber);
+            for (int c = 1; c < nextDestinies.size(); c++) {
+                int cdistance = Math.abs(nextDestinies.get(c) - myNumber);
                 if (cdistance < distance) {
                     idx = c;
                     distance = cdistance;
                 }
             }
-            theNumber = Destinies.get(idx);
+            theNumber = nextDestinies.get(idx);
         }
         msg.setContent(Integer.toString(theNumber));
         return msg;

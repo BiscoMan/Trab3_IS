@@ -11,12 +11,17 @@ package OrchestractorAgent;
  */
 import java.io.Serializable;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.Set;
 /**
  *
  * @author gonca
  */
 public class Destiny implements Serializable{
+    
+    HashMap<String, ArrayList> hmap = new HashMap<>();
 
     ArrayList<Integer> CurrentDestinies = new ArrayList<>();
     int currentDestiny = 0;
@@ -27,6 +32,10 @@ public class Destiny implements Serializable{
 
     public int getCurrentDestiny() {
         return currentDestiny;
+    }
+    
+    public void setHashMapNames(String LocalName, ArrayList<Integer> Destinies){   
+        this.hmap.put(LocalName, Destinies);
     }
 
     public void setCurrentDestinies(ArrayList<Integer> CurrentDestinies) {
