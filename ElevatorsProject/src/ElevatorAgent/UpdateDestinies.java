@@ -32,6 +32,9 @@ public class UpdateDestinies extends TickerBehaviour {
     protected void onTick() {
 
         ArrayList<Integer> newDestinies = ((ElevatorAgent) myAgent).myElevInt.destinies();
+        if(newDestinies.isEmpty()){
+            ((ElevatorAgent) myAgent).destinies.removeCurrentDestiny();
+        }
         System.out.println("New Destinies Elevator: " + newDestinies);
         System.out.println("Current Destinies Elevator: " + ((ElevatorAgent) myAgent).destinies.CurrentDestinies);
         if (!((ElevatorAgent) myAgent).destinies.CurrentDestinies.equals(newDestinies)) {
@@ -43,6 +46,7 @@ public class UpdateDestinies extends TickerBehaviour {
             DFAgentDescription[] dfd = DFInteraction.SearchInDF(myAgent, "Orchestractor", "Elevator");
             AID name = dfd[0].getName();
             msg.addReceiver(name);
+            msg.setOntology("NextDestiny");
             try {
                 msg.setContent(Serialize.toString(((ElevatorAgent) myAgent).destinies.CurrentDestinies));
             } catch (IOException ex) {
