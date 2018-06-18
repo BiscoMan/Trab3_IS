@@ -169,6 +169,23 @@ public class InsideFrame extends javax.swing.JFrame {
         nextPosition = position;
 
         if (!stoped) {
+            if(nextPosition == currentPosition) {
+                stoped = true;
+                goingDown = false;
+                goingUp = false;
+                openDoor();
+                return true;
+            }else if(nextPosition > currentPosition) {
+                stoped = false;
+                goingDown = false;
+                goingUp = true;
+                return true;
+            }else if(nextPosition < currentPosition) {
+                stoped = false;
+                goingDown = true;
+                goingUp = false;
+                return true;
+            }
             return false;
         } else {
             if (position == currentPosition) {
