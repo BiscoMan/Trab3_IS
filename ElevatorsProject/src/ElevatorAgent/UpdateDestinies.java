@@ -52,7 +52,7 @@ public class UpdateDestinies extends TickerBehaviour {
             } catch (IOException ex) {
                 Logger.getLogger(UpdateDestinies.class.getName()).log(Level.SEVERE, null, ex);
             }
-            myAgent.addBehaviour(new SendDestinies(myAgent, msg));
+            myAgent.addBehaviour(new ReceiveDestinies(myAgent, msg));
             ((ElevatorAgent) myAgent).destinies.CurrentDestinies.remove(((ElevatorAgent) myAgent).destinies.CurrentDestinies.size() - 1);
         } else {
             System.out.println("Não está a entrar no if.");

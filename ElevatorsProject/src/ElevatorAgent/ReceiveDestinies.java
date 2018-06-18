@@ -13,7 +13,7 @@ import jade.proto.AchieveREInitiator;
  *
  * @author gonca
  */
-public class SendDestinies extends AchieveREInitiator {
+public class ReceiveDestinies extends AchieveREInitiator {
 
 //    class myBehaviour extends WakerBehaviour {
 //
@@ -31,7 +31,7 @@ public class SendDestinies extends AchieveREInitiator {
 //            }
 //        }
 //    }
-    public SendDestinies(Agent a, ACLMessage msg) {
+    public ReceiveDestinies(Agent a, ACLMessage msg) {
         super(a, msg);
     }
 
