@@ -41,5 +41,8 @@ public class Destiny implements Serializable{
      public void setNextDestiny(int nextDestiny) {
         this.nextDestiny = nextDestiny;
     }
-
+     
+    public void removeCurrentDestiny(){
+        this.CurrentDestinies.clear();
+    }
 }

@@ -27,6 +27,7 @@ public class OrchestractorAgent extends Agent {
         myOrchInt.initHardware(this);
         DFInteraction.RegisterInDF(this, this.getLocalName(), "Elevator");
         this.addBehaviour(new ResponderNextDestiny(this, MessageTemplate.and(MatchPerformative(ACLMessage.REQUEST), MessageTemplate.MatchOntology("NextDestiny"))));
+        this.addBehaviour(new ResponderNextDestinyCalls(this, MessageTemplate.and(MatchPerformative(ACLMessage.REQUEST), MessageTemplate.MatchOntology("Calls"))));
     }
 
     @Override

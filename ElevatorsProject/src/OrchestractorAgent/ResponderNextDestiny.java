@@ -55,7 +55,7 @@ public class ResponderNextDestiny extends AchieveREResponder {
         //System.out.println("Next destiny OA: " + nextDestiny(destinies));
         if (!((OrchestractorAgent) myAgent).destinies.hmap.isEmpty()) {
             nextDestinies = ((OrchestractorAgent) myAgent).destinies.hmap.get(request.getSender().getLocalName());
-            currentDestiny = nextDestinies.get(nextDestinies.size()-1);
+            currentDestiny = nextDestinies.get(nextDestinies.size() - 1);
             nextDestinies.remove(nextDestinies.size() - 1);
         }
         int myNumber = currentDestiny;

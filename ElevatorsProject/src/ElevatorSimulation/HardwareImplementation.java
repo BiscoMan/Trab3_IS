@@ -12,14 +12,14 @@ import java.util.ArrayList;
 /**
  * @author André
  */
-public class HardwareImplementation{
-    
+public class HardwareImplementation {
+
     InsideFrame myFrame;
-    
+
     public boolean arrivePosition(int position) {
-        if(myFrame.currentPosition == position && myFrame.stoped){
+        if (myFrame.currentPosition == position && myFrame.stoped) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -32,16 +32,20 @@ public class HardwareImplementation{
         return myFrame.goToNewPosition(position);
     }
 
+    public int getPosition() {
+        return myFrame.currentPosition;
+    }
+
     public boolean initHardware(ElevatorAgent agent, float speed, int upperBound) {
         myFrame = new InsideFrame(upperBound);
         myFrame.setTitle(agent.getLocalName());
         myFrame.setVisible(true);
-        agent.addBehaviour(new SimulateElevator(agent, (long)(1000/speed), myFrame));
+        agent.addBehaviour(new SimulateElevator(agent, (long) (1000 / speed), myFrame));
         return true;
     }
 
     private static class SimulateElevator extends TickerBehaviour {
-        
+
         InsideFrame myFrame;
 
         public SimulateElevator(Agent a, long period, InsideFrame myFrame) {
@@ -54,7 +58,4 @@ public class HardwareImplementation{
             myFrame.updateState();
         }
     }
-    
 }
-
-            
