@@ -22,10 +22,14 @@ import java.util.Set;
 public class Destiny implements Serializable{
     
     HashMap<String, ArrayList> hmap = new HashMap<>();
+    HashMap<String, Integer> hmap_position = new HashMap<>();
     
     public void setHashMapNames(String LocalName, ArrayList<Integer> Destinies){
         this.hmap.put(LocalName, Destinies);
     }
-
+    
+    public void setHashMapPosition(String LocalName, int calls){
+        this.hmap_position.put(LocalName, calls);
+    }
 }
 

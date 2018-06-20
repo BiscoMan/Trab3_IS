@@ -27,6 +27,7 @@ public class ElevatorAgent extends Agent {
 
         this.addBehaviour(new UpdateDestinies(this, 100));
         this.addBehaviour(new arrivePositionBehaviour(this, 100));
+        this.addBehaviour(new ElevatorPosition(this, 100));
         /*this.addBehaviour(new CyclicBehaviour(this) {
          @Override
          public void action() {

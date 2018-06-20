@@ -17,30 +17,57 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author Gonçalo
  */
 public class ResponderNextDestinyCalls extends AchieveREResponder {
-    
-    public ResponderNextDestinyCalls(Agent a, MessageTemplate mt){
-        super(a,mt);
+
+    public ResponderNextDestinyCalls(Agent a, MessageTemplate mt) {
+        super(a, mt);
     }
-    
+
     @Override
-    protected ACLMessage handleRequest (ACLMessage request) throws NotUnderstoodException, RefuseException{
+    protected ACLMessage handleRequest(ACLMessage request) throws NotUnderstoodException, RefuseException {
+        try {
+            ((OrchestractorAgent) myAgent).destinies.setHashMapPosition(request.getSender().getLocalName(), (int) Serialize.fromString(request.getContent()));
+            //System.out.println("Destinies List OA: " + destinies.getCurrentDestinies());
+            //System.out.println("Destinies Number OA: " + destinies.getCurrentDestiny());
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(ResponderNextDestiny.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ACLMessage msg = request.createReply();
         msg.setPerformative(ACLMessage.AGREE);
         return msg;
     }
-    
-    protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage responde) throws FailureException{
+
+    protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage responde) throws FailureException {
         ArrayList<Integer> calls = ((OrchestractorAgent) myAgent).myOrchInt.calls();
-        int nextDestiny = 0;
+        int currentPosition = 0;
         block(5000);
         ACLMessage msg = request.createReply();
-        nextDestiny = calls.get(0);
-        msg.setContent((Integer.toString(nextDestiny)));
+        msg.setPerformative(ACLMessage.INFORM);
+        //System.out.println("Next destiny OA: " + nextDestiny(destinies));
+        if (!((OrchestractorAgent) myAgent).destinies.hmap_position.isEmpty()) {
+            currentPosition = ((OrchestractorAgent) myAgent).destinies.hmap_position.get(request.getSender().getLocalName());
+        }
+        int myNumber = currentPosition;
+        int theNumber = 0;
+        if (!calls.isEmpty()) {
+            int distance = Math.abs(calls.get(0) - myNumber);
+            int idx = 0;
+            for (int c = 1; c < calls.size(); c++) {
+                int cdistance = Math.abs(calls.get(c) - myNumber);
+                if (cdistance < distance) {
+                    idx = c;
+                    distance = cdistance;
+                }
+            }
+            theNumber = calls.get(idx);
+        }
+        msg.setContent(Integer.toString(theNumber));
+        ((OrchestractorAgent) myAgent).myOrchInt.removeCall(myNumber);
         return msg;
     }
 }
