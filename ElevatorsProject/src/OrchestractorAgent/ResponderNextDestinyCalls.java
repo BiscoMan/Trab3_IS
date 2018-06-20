@@ -65,9 +65,9 @@ public class ResponderNextDestinyCalls extends AchieveREResponder {
                 }
             }
             theNumber = calls.get(idx);
+            msg.setContent(Integer.toString(theNumber));
+            ((OrchestractorAgent) myAgent).myOrchInt.removeCall(myNumber);
         }
-        msg.setContent(Integer.toString(theNumber));
-        ((OrchestractorAgent) myAgent).myOrchInt.removeCall(myNumber);
         return msg;
     }
 }

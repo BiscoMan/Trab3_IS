@@ -42,7 +42,7 @@ public class ResponderNextDestiny extends AchieveREResponder {
         msg.setPerformative(ACLMessage.AGREE);
         return msg;
     }
-    
+
     @Override
     protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) throws FailureException {
         System.out.println("ola");

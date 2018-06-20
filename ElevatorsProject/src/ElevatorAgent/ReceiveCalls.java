@@ -22,9 +22,10 @@ public class ReceiveCalls extends AchieveREInitiator {
     @Override
     protected void handleInform(ACLMessage inform) {
         String calls;
+        String position = Integer.toString((((ElevatorAgent) myAgent).myElevInt.getPosition()));
         calls = inform.getContent();
-        int callsInt = Integer.parseInt(calls);
-        if ((((ElevatorAgent) myAgent).myElevInt.getPosition() != callsInt)) {
+        if (!position.equals(calls) && calls != null) {
+            int callsInt = Integer.parseInt(calls);
             ((ElevatorAgent) myAgent).destinies.setNextDestiny(callsInt);
             ((ElevatorAgent) myAgent).myElevInt.goToPosition(callsInt);
         }
