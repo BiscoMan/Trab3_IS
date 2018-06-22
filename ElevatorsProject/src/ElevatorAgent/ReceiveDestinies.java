@@ -44,6 +44,7 @@ public class ReceiveDestinies extends AchieveREInitiator {
             int nextPositionInt = Integer.parseInt(nextPosition);
             ((ElevatorAgent) myAgent).destinies.setNextDestiny(nextPositionInt);
             ((ElevatorAgent) myAgent).myElevInt.goToPosition(nextPositionInt);
+            System.out.println("Estou a ir para o 1 - Elev");
         }
     }
 

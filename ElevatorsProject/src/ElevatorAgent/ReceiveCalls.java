@@ -28,6 +28,7 @@ public class ReceiveCalls extends AchieveREInitiator {
             int callsInt = Integer.parseInt(calls);
             ((ElevatorAgent) myAgent).destinies.setNextDestiny(callsInt);
             ((ElevatorAgent) myAgent).myElevInt.goToPosition(callsInt);
+            System.out.println("Estou a ir para o 4 - Orch");
         }
     }
 
