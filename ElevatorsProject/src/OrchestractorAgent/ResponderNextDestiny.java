@@ -60,8 +60,6 @@ public class ResponderNextDestiny extends AchieveREResponder {
         }
         int myNumber = currentDestiny;
         int theNumber = 0;
-        ArrayList<Integer> calls = ((OrchestractorAgent) myAgent).myOrchInt.calls();
-        nextDestinies.addAll(calls);
         if (!nextDestinies.isEmpty()) {
             int distance = Math.abs(nextDestinies.get(0) - myNumber);
             int idx = 0;

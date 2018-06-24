@@ -40,8 +40,8 @@ public class UpdateDestinies extends TickerBehaviour {
         if (!((ElevatorAgent) myAgent).destinies.CurrentDestinies.equals(newDestinies)) {
             ((ElevatorAgent) myAgent).destinies.setCurrentDestinies(newDestinies);
             ((ElevatorAgent) myAgent).destinies.CurrentDestinies.add(((ElevatorAgent) myAgent).destinies.currentDestiny);
-            /*System.out.println("Current Destinies Elevator: " + ((ElevatorAgent) myAgent).destinies.CurrentDestinies);
-            System.out.println("Current Destiny Elevator: " + ((ElevatorAgent) myAgent).destinies.currentDestiny);*/
+            System.out.println("Current Destinies Elevator: " + ((ElevatorAgent) myAgent).destinies.CurrentDestinies);
+            System.out.println("Current Destiny Elevator: " + ((ElevatorAgent) myAgent).destinies.currentDestiny);
             ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
             DFAgentDescription[] dfd = DFInteraction.SearchInDF(myAgent, "Orchestractor", "Elevator");
             AID name = dfd[0].getName();
@@ -53,6 +53,7 @@ public class UpdateDestinies extends TickerBehaviour {
                 Logger.getLogger(UpdateDestinies.class.getName()).log(Level.SEVERE, null, ex);
             }
             myAgent.addBehaviour(new ReceiveDestinies(myAgent, msg));
+            ((ElevatorAgent) myAgent).destinies.setStatus(1);
             ((ElevatorAgent) myAgent).destinies.CurrentDestinies.remove(((ElevatorAgent) myAgent).destinies.CurrentDestinies.size() - 1);
         } else {
             //System.out.println("Não está a entrar no if.");
